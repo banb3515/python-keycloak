@@ -23,11 +23,6 @@
 
 """Connection manager module."""
 
-try:
-    from urllib.parse import urljoin
-except ImportError:  # pragma: no cover
-    from urlparse import urljoin
-
 import httpx
 import requests
 from requests.adapters import HTTPAdapter
@@ -236,7 +231,7 @@ class ConnectionManager(object):
         """
         try:
             return self._s.get(
-                urljoin(self.base_url, path),
+                f"{self.base_url}/{path}",
                 params=kwargs,
                 headers=self.headers,
                 timeout=self.timeout,
@@ -261,7 +256,7 @@ class ConnectionManager(object):
         """
         try:
             return self._s.post(
-                urljoin(self.base_url, path),
+                f"{self.base_url}/{path}",
                 params=kwargs,
                 data=data,
                 headers=self.headers,
@@ -287,7 +282,7 @@ class ConnectionManager(object):
         """
         try:
             return self._s.put(
-                urljoin(self.base_url, path),
+                f"{self.base_url}/{path}",
                 params=kwargs,
                 data=data,
                 headers=self.headers,
@@ -313,7 +308,7 @@ class ConnectionManager(object):
         """
         try:
             r = self._s.delete(
-                urljoin(self.base_url, path),
+                f"{self.base_url}/{path}",
                 params=kwargs,
                 data=data or dict(),
                 headers=self.headers,
@@ -338,7 +333,7 @@ class ConnectionManager(object):
         """
         try:
             return await self.async_s.get(
-                urljoin(self.base_url, path),
+                f"{self.base_url}/{path}",
                 params=self._filter_query_params(kwargs),
                 headers=self.headers,
                 timeout=self.timeout,
@@ -362,7 +357,7 @@ class ConnectionManager(object):
         try:
             return await self.async_s.request(
                 method="POST",
-                url=urljoin(self.base_url, path),
+                url=f"{self.base_url}/{path}",
                 params=self._filter_query_params(kwargs),
                 data=data,
                 headers=self.headers,
@@ -386,7 +381,7 @@ class ConnectionManager(object):
         """
         try:
             return await self.async_s.put(
-                urljoin(self.base_url, path),
+                f"{self.base_url}/{path}",
                 params=self._filter_query_params(kwargs),
                 data=data,
                 headers=self.headers,
@@ -411,7 +406,7 @@ class ConnectionManager(object):
         try:
             return await self.async_s.request(
                 method="DELETE",
-                url=urljoin(self.base_url, path),
+                url=f"{self.base_url}/{path}",
                 data=data or dict(),
                 params=self._filter_query_params(kwargs),
                 headers=self.headers,
